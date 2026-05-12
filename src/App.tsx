@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Rocket, 
@@ -373,23 +373,54 @@ export default function App() {
       <section id="features" className="py-24 bg-slate-100/50 relative border-y border-slate-200">
         <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Strategic Advantages</h2>
-            <p className="text-slate-700 max-w-2xl mx-auto text-lg leading-relaxed">
-              Our multifaceted approach ensures massive success for both developers and investors.
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-white/80 border-slate-200 text-slate-600 shadow-sm">Protocol Benefits</Badge>
+            <h2 className="text-4xl md:text-6xl font-black text-slate-950 mb-8 tracking-tighter">
+              Strategic <span className="text-cyan-600">Advantages</span>
+            </h2>
+            <p className="text-slate-700 max-w-3xl mx-auto text-xl leading-relaxed">
+              Our multifaceted approach ensures massive success for both developers and investors through a verified scaling framework.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {features.map((feature, i) => (
-              <Card key={i} className="group shadow-sm hover:shadow-xl border-slate-200 bg-white group transition-all duration-300">
-                <div className="mb-6 p-4 rounded-2xl bg-slate-50 text-cyan-600 w-fit group-hover:bg-cyan-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-700 line-clamp-3 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-              </Card>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative"
+              >
+                <div className="absolute -inset-2 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                
+                <Card className="relative h-full overflow-hidden border-slate-200 bg-white p-8 md:p-10 rounded-[32px] shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group">
+                  {/* Card Background Decoration */}
+                  <div className="absolute top-0 right-0 p-6 text-[80px] font-black text-slate-50 leading-none select-none -z-0">
+                    0{i + 1}
+                  </div>
+                  
+                  <div className="relative z-10">
+                    <div className="mb-8 p-5 rounded-2xl bg-slate-50 text-cyan-600 w-fit group-hover:bg-cyan-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-sm border border-slate-100">
+                      {React.cloneElement(feature.icon as React.ReactElement, { size: 32 })}
+                    </div>
+                    
+                    <h3 className="text-2xl font-black text-slate-950 mb-4 tracking-tight group-hover:text-cyan-600 transition-colors">
+                      {feature.title}
+                    </h3>
+                    
+                    <p className="text-slate-700 text-base leading-relaxed">
+                      {feature.description}
+                    </p>
+                    
+                    <div className="mt-8 flex items-center gap-2 text-cyan-600 font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
+                      <span>Verified System</span>
+                      <ShieldCheck size={12} />
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -571,17 +602,35 @@ export default function App() {
 
       {/* Board Token Sales Engine */}
       <section id="boards" className="py-24 bg-slate-50 relative overflow-hidden border-y border-slate-200">
-        {/* Decorative elements */}
+        {/* Decorative elements and shapes */}
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,rgba(6,182,212,0.1),transparent_40%)]" />
         <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_100%,rgba(59,130,246,0.1),transparent_40%)]" />
         
+        {/* Floating Shapes */}
+        <motion.div 
+          animate={{ 
+            y: [0, -20, 0],
+            rotate: [0, 10, 0]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[20%] right-[15%] w-64 h-64 bg-cyan-400/5 rounded-[40px] blur-3xl -z-0 pointer-events-none"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, 20, 0],
+            rotate: [0, -10, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-[10%] left-[10%] w-80 h-80 bg-blue-400/5 rounded-full blur-3xl -z-0 pointer-events-none"
+        />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-20">
             <Badge className="mb-6 bg-cyan-100 text-cyan-600 border-cyan-200">Growth Protocol</Badge>
             <h2 className="text-4xl md:text-6xl font-black text-slate-950 mb-8 tracking-tight">
               Board Token <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Sales Engine</span>
             </h2>
-            <p className="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
+            <p className="text-slate-700 max-w-3xl mx-auto text-lg leading-relaxed">
               Scale through our proprietary <span className="text-slate-950 font-bold">1:5 automated filling mechanism</span> across four strategic tiers. 
               Each board completion unlocks substantial capital and premium ecosystem status.
             </p>
@@ -589,45 +638,49 @@ export default function App() {
 
           <div className="grid lg:grid-cols-2 gap-12 items-stretch">
             {/* Left side: Luxury CAR Achievements */}
-            <motion.div {...fadeInUp} className="flex flex-col h-full">
+            <motion.div 
+              {...fadeInUp} 
+              whileHover={{ y: -8 }}
+              className="flex flex-col h-full transition-all duration-500"
+            >
               <div className="mb-8 flex items-center gap-4">
                 <div className="w-12 h-1 bg-cyan-600 rounded-full" />
                 <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter italic">The Pinnacle Reward</h3>
               </div>
 
               <div className="relative group flex-grow">
-                <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[40px] blur-2xl opacity-10 group-hover:opacity-20 transition duration-1000"></div>
-                <Card className="relative h-full overflow-hidden bg-slate-950 border-white/10 flex flex-col shadow-2xl rounded-[32px]">
+                <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[40px] blur-2xl opacity-10 group-hover:opacity-30 transition duration-700"></div>
+                <Card className="relative h-full overflow-hidden bg-slate-950 border-white/10 flex flex-col shadow-2xl rounded-[32px] group-hover:shadow-cyan-500/20 transition-all duration-500">
                   <div className="absolute top-0 right-0 p-8">
-                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 backdrop-blur-sm">
+                    <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-cyan-400 backdrop-blur-sm group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
                       <Car size={32} />
                     </div>
                   </div>
                   
                   <div className="p-8 md:p-12 flex-grow flex flex-col justify-center">
                     <div className="mb-10">
-                      <Badge className="mb-4 bg-amber-500/20 text-amber-500 border-amber-500/30">Tier 4 Completion</Badge>
-                      <h4 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tight">
-                        $150,000 <span className="text-slate-500 font-medium text-2xl">+ Car</span>
+                      <Badge className="mb-4 bg-amber-400/20 text-amber-400 border-amber-400/30">Tier 4 Completion</Badge>
+                      <h4 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tight group-hover:text-cyan-400 transition-colors">
+                        $150,000 <span className="text-slate-300 font-medium text-2xl group-hover:text-white transition-colors">+ Car</span>
                       </h4>
-                      <p className="text-slate-400 text-lg">The ultimate entrepreneurial milestone in our ecosystem.</p>
+                      <p className="text-slate-200 text-lg leading-relaxed opacity-90">The ultimate entrepreneurial milestone in our ecosystem.</p>
                     </div>
 
                     <div className="space-y-8">
                       <div>
                         <div className="flex justify-between items-end mb-4">
                           <div>
-                            <span className="text-slate-600 text-xs font-black uppercase tracking-widest block mb-1">Status</span>
-                            <span className="text-white font-bold">Cash Bonus Milestone</span>
+                            <span className="text-slate-400 text-xs font-black uppercase tracking-widest block mb-1">Live Tracking</span>
+                            <span className="text-white font-bold text-lg">Cash Bonus Milestone</span>
                           </div>
-                          <span className="text-cyan-400 font-black text-2xl tracking-tighter">$100,000</span>
+                          <span className="text-cyan-400 font-black text-3xl tracking-tighter group-hover:scale-110 transition-transform">$100,000</span>
                         </div>
-                        <div className="w-full bg-white/5 h-4 rounded-full overflow-hidden border border-white/5 p-1">
+                        <div className="w-full bg-white/10 h-4 rounded-full overflow-hidden border border-white/10 p-1 group-hover:border-cyan-500/40 transition-colors">
                           <motion.div 
                             initial={{ width: 0 }}
                             whileInView={{ width: '100%' }}
                             transition={{ duration: 2, ease: "circOut" }}
-                            className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full shadow-[0_0_20px_rgba(6,182,212,0.5)]"
+                            className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full shadow-[0_0_20px_rgba(6,182,212,0.6)]"
                           />
                         </div>
                       </div>
@@ -635,14 +688,14 @@ export default function App() {
                   </div>
 
                   <div className="p-8 md:px-12 md:pb-12 mt-auto">
-                    <div className="bg-white/5 rounded-[24px] p-6 border border-white/10 backdrop-blur-md flex items-center justify-between">
+                    <div className="bg-white/10 rounded-[24px] p-6 border border-white/20 backdrop-blur-md flex items-center justify-between group-hover:bg-white/15 transition-colors">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                        <div className="w-10 h-10 rounded-full bg-cyan-500/30 flex items-center justify-center text-cyan-300 group-hover:animate-pulse">
                           <Zap size={20} />
                         </div>
-                        <span className="text-slate-300 font-medium">Total Potential Reward</span>
+                        <span className="text-slate-100 font-bold">Total Potential Reward</span>
                       </div>
-                      <span className="text-white font-black text-2xl md:text-3xl tracking-tight">$195,000+</span>
+                      <span className="text-white font-black text-2xl md:text-3xl tracking-tight leading-none">$195,000+</span>
                     </div>
                   </div>
                 </Card>
@@ -653,24 +706,25 @@ export default function App() {
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
+              whileHover={{ y: -8 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="flex flex-col h-full"
+              className="flex flex-col h-full transition-all duration-500"
             >
               <div className="mb-8 flex items-center gap-4">
                 <div className="w-12 h-1 bg-slate-200 rounded-full" />
                 <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter">Earnings Breakdown</h3>
               </div>
               
-              <div className="flex-grow flex flex-col bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
+              <div className="flex-grow flex flex-col bg-white rounded-[32px] border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
                       <thead>
                         <tr className="bg-slate-50 border-b border-slate-100">
-                          <th className="py-6 px-6 text-slate-900 font-black uppercase text-[10px] tracking-widest">Board Level</th>
-                          <th className="py-6 px-4 text-slate-500 font-bold text-[10px] tracking-widest uppercase">L-1 (5u)</th>
-                          <th className="py-6 px-4 text-slate-500 font-bold text-[10px] tracking-widest uppercase">L-2 (25u)</th>
-                          <th className="py-6 px-4 text-slate-500 font-bold text-[10px] tracking-widest uppercase">L-3 (125u)</th>
+                          <th className="py-6 px-6 text-slate-950 font-black uppercase text-[10px] tracking-widest">Board Level</th>
+                          <th className="py-6 px-4 text-slate-700 font-bold text-[10px] tracking-widest uppercase">L-1 (5u)</th>
+                          <th className="py-6 px-4 text-slate-700 font-bold text-[10px] tracking-widest uppercase">L-2 (25u)</th>
+                          <th className="py-6 px-4 text-slate-700 font-bold text-[10px] tracking-widest uppercase">L-3 (125u)</th>
                           <th className="py-6 px-6 text-cyan-600 font-black text-[10px] tracking-widest uppercase text-right">Yield</th>
                         </tr>
                       </thead>
@@ -684,16 +738,16 @@ export default function App() {
                                 } transition-colors`}>
                                   {i + 1}
                                 </div>
-                                <span className={`font-black text-base md:text-lg tracking-tight ${i === 3 ? 'text-amber-500' : 'text-slate-900'}`}>
+                                <span className={`font-black text-base md:text-lg tracking-tight ${i === 3 ? 'text-amber-500' : 'text-slate-950 group-hover:text-cyan-600'}`}>
                                   {board.level.split(' ')[1]}
                                 </span>
                               </div>
                             </td>
-                            <td className="py-5 px-4 text-slate-500 font-bold text-sm">{board.bonus1}</td>
-                            <td className="py-5 px-4 text-slate-500 font-bold text-sm">{board.bonus2}</td>
-                            <td className="py-5 px-4 text-slate-500 font-bold text-sm">{board.bonus3.split(' ')[0]}</td>
+                            <td className="py-5 px-4 text-slate-800 font-bold text-sm">{board.bonus1}</td>
+                            <td className="py-5 px-4 text-slate-800 font-bold text-sm">{board.bonus2}</td>
+                            <td className="py-5 px-4 text-slate-800 font-bold text-sm">{board.bonus3.split(' ')[0]}</td>
                             <td className="py-5 px-6 text-right">
-                              <span className={`font-black text-base md:text-xl tracking-tighter ${i === 3 ? 'text-cyan-600' : 'text-slate-900'}`}>
+                              <span className={`font-black text-base md:text-xl tracking-tighter ${i === 3 ? 'text-cyan-600' : 'text-slate-950 group-hover:text-cyan-600 transition-colors'}`}>
                                 {board.total.includes('+') ? board.total.split(' ')[0] : board.total}
                               </span>
                             </td>
@@ -703,15 +757,15 @@ export default function App() {
                   </table>
                 </div>
                 
-                <div className="mt-auto p-8 bg-slate-50/50 border-t border-slate-100">
+                <div className="mt-auto p-8 bg-slate-50 border-t border-slate-100">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 rounded-full bg-cyan-500 animate-pulse" />
-                      <span className="text-slate-600 text-sm font-bold uppercase tracking-widest">Active Pool Status</span>
+                      <div className="w-3 h-3 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.5)]" />
+                      <span className="text-slate-950 text-sm font-black uppercase tracking-widest">Active Pool Status</span>
                     </div>
                     <div className="text-center md:text-right">
-                      <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Total System Liquidity</div>
-                      <div className="text-2xl font-black text-slate-950 tracking-tighter bg-cyan-100 px-4 py-1 rounded-xl">$195,000 USDT</div>
+                      <div className="text-slate-600 text-[10px] font-black uppercase tracking-widest mb-1">Total System Liquidity</div>
+                      <div className="text-2xl font-black text-slate-950 tracking-tighter bg-cyan-100 px-4 py-1 rounded-xl shadow-inner">$195,000 USDT</div>
                     </div>
                   </div>
                 </div>
