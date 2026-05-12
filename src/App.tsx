@@ -601,101 +601,88 @@ export default function App() {
       </section>
 
       {/* Board Token Sales Engine */}
-      <section id="boards" className="py-24 bg-slate-50 relative overflow-hidden border-y border-slate-200">
-        {/* Decorative elements and shapes */}
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,rgba(6,182,212,0.1),transparent_40%)]" />
-        <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_100%,rgba(59,130,246,0.1),transparent_40%)]" />
+      <section id="boards" className="py-20 bg-white relative overflow-hidden border-y border-slate-100">
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px] opacity-20" />
         
-        {/* Floating Shapes */}
-        <motion.div 
-          animate={{ 
-            y: [0, -20, 0],
-            rotate: [0, 10, 0]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[20%] right-[15%] w-64 h-64 bg-cyan-400/5 rounded-[40px] blur-3xl -z-0 pointer-events-none"
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, 20, 0],
-            rotate: [0, -10, 0]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[10%] left-[10%] w-80 h-80 bg-blue-400/5 rounded-full blur-3xl -z-0 pointer-events-none"
-        />
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-20">
-            <Badge className="mb-6 bg-cyan-100 text-cyan-600 border-cyan-200">Growth Protocol</Badge>
-            <h2 className="text-4xl md:text-6xl font-black text-slate-950 mb-8 tracking-tight">
-              Board Token <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Sales Engine</span>
+          <div className="max-w-3xl mb-16 px-2">
+            <Badge className="mb-4 bg-slate-900 text-white border-none px-3 py-1 text-[10px] font-bold uppercase tracking-wider">Protocol Overview</Badge>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-950 mb-6 tracking-tight leading-[1.1]">
+              Board Token <span className="text-cyan-600">Sales Engine</span>
             </h2>
-            <p className="text-slate-700 max-w-3xl mx-auto text-lg leading-relaxed">
-              Scale through our proprietary <span className="text-slate-950 font-bold">1:5 automated filling mechanism</span> across four strategic tiers. 
-              Each board completion unlocks substantial capital and premium ecosystem status.
+            <p className="text-slate-600 text-lg leading-relaxed font-medium">
+              A high-velocity <span className="text-slate-950">1:5 automated filling cycle</span> designed for global scale. 
+              Complete strategic boards to unlock capital and premium ecosystem status.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
+          <div className="grid lg:grid-cols-12 gap-8 items-stretch">
             {/* Left side: Luxury CAR Achievements */}
             <motion.div 
               {...fadeInUp} 
-              whileHover={{ y: -8 }}
-              className="flex flex-col h-full transition-all duration-500"
+              className="lg:col-span-12 xl:col-span-4 h-full"
             >
-              <div className="mb-8 flex items-center gap-4">
-                <div className="w-12 h-1 bg-cyan-600 rounded-full" />
-                <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter italic">The Pinnacle Reward</h3>
-              </div>
-
-              <div className="relative group flex-grow">
-                <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[40px] blur-2xl opacity-10 group-hover:opacity-30 transition duration-700"></div>
-                <Card className="relative h-full overflow-hidden bg-slate-950 border-white/10 flex flex-col shadow-2xl rounded-[32px] group-hover:shadow-cyan-500/20 transition-all duration-500">
-                  <div className="absolute top-0 right-0 p-8">
-                    <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-cyan-400 backdrop-blur-sm group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                      <Car size={32} />
+              <div className="relative group h-full">
+                <div className="absolute -inset-1 bg-cyan-500/10 rounded-[32px] blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                <Card className="relative h-full overflow-hidden bg-slate-950 border-white/5 flex flex-col shadow-2xl rounded-[32px] p-0">
+                  {/* Premium Header */}
+                  <div className="p-6 md:p-8 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+                    <div>
+                      <span className="text-cyan-400 text-[10px] font-black uppercase tracking-[0.2em] block mb-1.5">Elite Milestone</span>
+                      <h3 className="text-xl font-bold text-white tracking-tight">The Pinnacle Reward</h3>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                      <Trophy size={24} />
                     </div>
                   </div>
                   
-                  <div className="p-8 md:p-12 flex-grow flex flex-col justify-center">
+                  {/* Main Content */}
+                  <div className="p-6 md:p-8 flex-grow flex flex-col justify-center">
                     <div className="mb-10">
-                      <Badge className="mb-4 bg-amber-400/20 text-amber-400 border-amber-400/30">Tier 4 Completion</Badge>
-                      <h4 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tight group-hover:text-cyan-400 transition-colors">
-                        $150,000 <span className="text-slate-300 font-medium text-2xl group-hover:text-white transition-colors">+ Car</span>
-                      </h4>
-                      <p className="text-slate-200 text-lg leading-relaxed opacity-90">The ultimate entrepreneurial milestone in our ecosystem.</p>
+                      <div className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3">Tier 4 Completion</div>
+                      <div className="flex flex-col gap-1 mb-4">
+                        <span className="text-4xl font-black text-white tracking-tighter">$150,000</span>
+                        <span className="text-lg text-cyan-400 font-black tracking-tight uppercase">+ Luxury Car</span>
+                      </div>
+                      <p className="text-slate-300 text-base leading-relaxed font-medium opacity-100">
+                        The ultimate entrepreneurial milestone in our global ecosystem.
+                      </p>
                     </div>
 
                     <div className="space-y-8">
                       <div>
                         <div className="flex justify-between items-end mb-4">
                           <div>
-                            <span className="text-slate-400 text-xs font-black uppercase tracking-widest block mb-1">Live Tracking</span>
-                            <span className="text-white font-bold text-lg">Cash Bonus Milestone</span>
+                            <span className="text-cyan-400 text-[10px] font-black uppercase tracking-widest block mb-1">Live Tracking</span>
+                            <span className="text-white font-bold text-lg leading-none">Bonus Milestone</span>
                           </div>
-                          <span className="text-cyan-400 font-black text-3xl tracking-tighter group-hover:scale-110 transition-transform">$100,000</span>
+                          <span className="text-white font-black text-2xl tracking-tighter bg-cyan-600/20 px-3 py-1 rounded-lg border border-cyan-500/30">$100,000</span>
                         </div>
-                        <div className="w-full bg-white/10 h-4 rounded-full overflow-hidden border border-white/10 p-1 group-hover:border-cyan-500/40 transition-colors">
+                        <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden p-0">
                           <motion.div 
                             initial={{ width: 0 }}
-                            whileInView={{ width: '100%' }}
+                            whileInView={{ width: '85%' }}
                             transition={{ duration: 2, ease: "circOut" }}
-                            className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full shadow-[0_0_20px_rgba(6,182,212,0.6)]"
+                            className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full shadow-[0_0_10px_rgba(6,182,212,0.3)]"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-8 md:px-12 md:pb-12 mt-auto">
-                    <div className="bg-white/10 rounded-[24px] p-6 border border-white/20 backdrop-blur-md flex items-center justify-between group-hover:bg-white/15 transition-colors">
+                  {/* Summary Footer */}
+                  <div className="mt-auto p-6 md:p-8 border-t border-white/5 bg-white/[0.01]">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-cyan-500/30 flex items-center justify-center text-cyan-300 group-hover:animate-pulse">
-                          <Zap size={20} />
+                        <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+                          <Zap size={18} />
                         </div>
-                        <span className="text-slate-100 font-bold">Total Potential Reward</span>
+                        <div className="text-left">
+                          <p className="text-slate-500 text-[9px] font-black uppercase tracking-widest mb-0.5">Total Potential</p>
+                          <span className="text-white font-bold text-xl tracking-tight leading-none">$195,000+</span>
+                        </div>
                       </div>
-                      <span className="text-white font-black text-2xl md:text-3xl tracking-tight leading-none">$195,000+</span>
+                      <Car className="text-white/10 w-8 h-8" />
                     </div>
                   </div>
                 </Card>
@@ -704,50 +691,53 @@ export default function App() {
 
             {/* Right side: Board Income Chart */}
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="flex flex-col h-full transition-all duration-500"
+              {...fadeInUp}
+              transition={{ delay: 0.1 }}
+              className="lg:col-span-12 xl:col-span-8 flex flex-col h-full"
             >
-              <div className="mb-8 flex items-center gap-4">
-                <div className="w-12 h-1 bg-slate-200 rounded-full" />
-                <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter">Earnings Breakdown</h3>
-              </div>
-              
-              <div className="flex-grow flex flex-col bg-white rounded-[32px] border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
+              <div className="flex-grow flex flex-col bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-6 md:p-8 border-b border-slate-100 flex items-center justify-between">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 tracking-tight">Earnings Distribution</h3>
+                    <p className="text-slate-500 text-xs font-medium mt-1 uppercase tracking-wide">Board Cycle Yield Breakdown</p>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-50 border border-cyan-100/50">
+                    <TrendingUp className="w-3.5 h-3.5 text-cyan-600" />
+                    <span className="text-[10px] font-black text-cyan-700 uppercase tracking-wider">Live Pool</span>
+                  </div>
+                </div>
+
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
                       <thead>
-                        <tr className="bg-slate-50 border-b border-slate-100">
-                          <th className="py-6 px-6 text-slate-950 font-black uppercase text-[10px] tracking-widest">Board Level</th>
-                          <th className="py-6 px-4 text-slate-700 font-bold text-[10px] tracking-widest uppercase">L-1 (5u)</th>
-                          <th className="py-6 px-4 text-slate-700 font-bold text-[10px] tracking-widest uppercase">L-2 (25u)</th>
-                          <th className="py-6 px-4 text-slate-700 font-bold text-[10px] tracking-widest uppercase">L-3 (125u)</th>
-                          <th className="py-6 px-6 text-cyan-600 font-black text-[10px] tracking-widest uppercase text-right">Yield</th>
+                        <tr className="bg-slate-50/50 border-b border-slate-100">
+                          <th className="py-4 px-6 text-slate-900 font-black uppercase text-[9px] tracking-[0.2em]">Tier</th>
+                          <th className="py-4 px-4 text-slate-500 font-bold text-[9px] tracking-[0.15em] uppercase">Level 1</th>
+                          <th className="py-4 px-4 text-slate-500 font-bold text-[9px] tracking-[0.15em] uppercase">Level 2</th>
+                          <th className="py-4 px-4 text-slate-500 font-bold text-[9px] tracking-[0.15em] uppercase">Level 3</th>
+                          <th className="py-4 px-6 text-cyan-600 font-black text-[9px] tracking-[0.2em] uppercase text-right">Total Yield</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-50">
+                      <tbody className="divide-y divide-slate-100">
                         {boardBenefits.map((board, i) => (
-                          <tr key={i} className="hover:bg-slate-50/80 transition-colors group">
+                          <tr key={i} className={`hover:bg-slate-50/50 transition-colors group ${i === 3 ? 'bg-cyan-50/30' : ''}`}>
                             <td className="py-5 px-6">
-                              <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-4">
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${
-                                  i === 3 ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 text-slate-600 group-hover:bg-cyan-100 group-hover:text-cyan-600'
-                                } transition-colors`}>
+                                  i === 3 ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-cyan-600 group-hover:text-white'
+                                } transition-all shadow-sm`}>
                                   {i + 1}
                                 </div>
-                                <span className={`font-black text-base md:text-lg tracking-tight ${i === 3 ? 'text-amber-500' : 'text-slate-950 group-hover:text-cyan-600'}`}>
-                                  {board.level.split(' ')[1]}
+                                <span className={`font-bold text-sm tracking-tight ${i === 3 ? 'text-slate-950' : 'text-slate-700 group-hover:text-slate-950'}`}>
+                                  {board.level}
                                 </span>
                               </div>
                             </td>
-                            <td className="py-5 px-4 text-slate-800 font-bold text-sm">{board.bonus1}</td>
-                            <td className="py-5 px-4 text-slate-800 font-bold text-sm">{board.bonus2}</td>
-                            <td className="py-5 px-4 text-slate-800 font-bold text-sm">{board.bonus3.split(' ')[0]}</td>
+                            <td className="py-5 px-4 text-slate-900 font-black text-sm">{board.bonus1}</td>
+                            <td className="py-5 px-4 text-slate-900 font-black text-sm">{board.bonus2}</td>
+                            <td className="py-5 px-4 text-slate-900 font-black text-sm">{board.bonus3.split(' ')[0]}</td>
                             <td className="py-5 px-6 text-right">
-                              <span className={`font-black text-base md:text-xl tracking-tighter ${i === 3 ? 'text-cyan-600' : 'text-slate-950 group-hover:text-cyan-600 transition-colors'}`}>
+                              <span className={`font-black text-base tracking-tighter ${i === 3 ? 'text-cyan-600' : 'text-slate-950 group-hover:text-cyan-600'}`}>
                                 {board.total.includes('+') ? board.total.split(' ')[0] : board.total}
                               </span>
                             </td>
@@ -757,15 +747,22 @@ export default function App() {
                   </table>
                 </div>
                 
-                <div className="mt-auto p-8 bg-slate-50 border-t border-slate-100">
+                <div className="mt-auto p-6 md:p-8 bg-slate-50 border-t border-slate-100">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.5)]" />
-                      <span className="text-slate-950 text-sm font-black uppercase tracking-widest">Active Pool Status</span>
+                    <div className="flex items-center gap-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.3)]" />
+                      <div className="text-left">
+                        <span className="text-slate-400 text-[9px] font-black uppercase tracking-widest block mb-0.5">System Liquidity</span>
+                        <span className="text-slate-950 font-black text-lg tracking-tight">$195,000 USDT</span>
+                      </div>
                     </div>
-                    <div className="text-center md:text-right">
-                      <div className="text-slate-600 text-[10px] font-black uppercase tracking-widest mb-1">Total System Liquidity</div>
-                      <div className="text-2xl font-black text-slate-950 tracking-tighter bg-cyan-100 px-4 py-1 rounded-xl shadow-inner">$195,000 USDT</div>
+                    <div className="flex gap-3">
+                       <Button variant="outline" size="sm" className="rounded-xl border-slate-200 text-slate-900 font-bold text-xs hover:bg-white shadow-sm">
+                         Audit Contract
+                       </Button>
+                       <Button size="sm" className="rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 shadow-sm px-6">
+                         Join Board
+                       </Button>
                     </div>
                   </div>
                 </div>
@@ -776,10 +773,10 @@ export default function App() {
       </section>
 
       {/* Final CTA: List Your Project */}
-      <section id="list-project" className="py-24 relative overflow-hidden bg-gradient-to-bl from-slate-900 to-slate-950 text-white">
+      <section id="list-project" className="py-20 relative overflow-hidden bg-gradient-to-bl from-slate-900 to-slate-950 text-white">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-cyan-500/5 via-transparent to-blue-600/5 -z-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div {...fadeInUp}>
               <Badge className="mb-4 bg-cyan-500/20 text-cyan-400 border-cyan-500/30">For Project Owners</Badge>
