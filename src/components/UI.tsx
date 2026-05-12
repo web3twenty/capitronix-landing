@@ -6,8 +6,9 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   id?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export function Button({
@@ -16,7 +17,8 @@ export function Button({
   size = 'md',
   className = '',
   onClick,
-  id
+  id,
+  type = 'button'
 }: ButtonProps) {
   const baseStyles = 'inline-flex items-center justify-center rounded-full font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
   
@@ -40,6 +42,7 @@ export function Button({
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       onClick={onClick}
       id={id}
+      type={type}
     >
       {children}
     </motion.button>
@@ -51,6 +54,7 @@ interface CardProps {
   className?: string;
   onClick?: () => void;
   id?: string;
+  key?: number | string;
 }
 
 export function Card({ children, className = '', onClick, id }: CardProps) {

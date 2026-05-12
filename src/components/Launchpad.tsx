@@ -1,31 +1,22 @@
-import { useState } from 'react';
-import { Rocket, Timer, TrendingUp, ShieldCheck, Zap, Diamond, Users, X, Share2, Mail, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Rocket, Timer, TrendingUp, ShieldCheck, Zap, Diamond, Users, X, Share2, Mail, CheckCircle2, Twitter, Facebook, Youtube, Send, Globe, ArrowRight } from 'lucide-react';
 import { Button, Card, Badge } from './UI';
 import { AnimatePresence, motion } from 'motion/react';
-
-interface TeamMember {
-  name: string;
-  role: string;
-  avatar: string;
-}
-
-interface LaunchItemProps {
-  type: 'Token' | 'NFT';
-  title: string;
-  symbol?: string;
-  price: string;
-  progress: number;
-  totalRaised?: string;
-  status: 'Active' | 'Upcoming';
-  image: string;
-  countdown?: string;
-  fullDescription: string;
-  tokenomics?: { label: string, value: string }[];
-  team?: TeamMember[];
-}
+import { CommunityLink, LaunchItemProps } from '../types';
+import { projects as allProjects } from '../data/projects';
 
 function ProjectModal({ item, onClose }: { item: LaunchItemProps, onClose: () => void }) {
-  const [activeTab, setActiveTab] = useState<'info' | 'tokenomics' | 'team'>('info');
+  const [activeTab, setActiveTab] = useState<'info' | 'tokenomics' | 'community'>('info');
+
+  const getIcon = (platform: string) => {
+    switch (platform) {
+      case 'Telegram': return <Send size={20} />;
+      case 'Facebook': return <Facebook size={20} />;
+      case 'Twitter': return <Twitter size={20} />;
+      case 'YouTube': return <Youtube size={20} />;
+      default: return <Globe size={20} />;
+    }
+  };
 
   return (
     <motion.div 
@@ -82,7 +73,7 @@ function ProjectModal({ item, onClose }: { item: LaunchItemProps, onClose: () =>
 
           {/* Tabs */}
           <div className="flex gap-6 border-b border-white/5 mb-8">
-            {['info', 'tokenomics', 'team'].map((tab) => (
+            {['info', 'tokenomics', 'community'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
@@ -90,7 +81,7 @@ function ProjectModal({ item, onClose }: { item: LaunchItemProps, onClose: () =>
                   activeTab === tab ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                {tab}
+                {tab === 'community' ? 'Join Community' : tab}
                 {activeTab === tab && (
                   <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400" />
                 )}
@@ -101,17 +92,27 @@ function ProjectModal({ item, onClose }: { item: LaunchItemProps, onClose: () =>
           <div className="flex-grow">
             {activeTab === 'info' && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}>
-                <p className="text-slate-300 leading-relaxed mb-8">{item.fullDescription}</p>
-                <div className="grid grid-cols-2 gap-4">
+                <p className="text-slate-300 leading-relaxed mb-8 text-sm md:text-base">{item.fullDescription}</p>
+                <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
-                    <div className="text-xs text-slate-500 uppercase mb-1">Launch Price</div>
-                    <div className="text-lg font-bold text-white">{item.price}</div>
+                    <div className="text-[10px] md:text-xs text-slate-500 uppercase mb-1 whitespace-nowrap">Launch Price</div>
+                    <div className="text-base md:text-lg font-bold text-white">{item.price}</div>
                   </div>
                   <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
-                    <div className="text-xs text-slate-500 uppercase mb-1">Allocation</div>
-                    <div className="text-lg font-bold text-white">{item.totalRaised}</div>
+                    <div className="text-[10px] md:text-xs text-slate-500 uppercase mb-1 whitespace-nowrap">Allocation</div>
+                    <div className="text-base md:text-lg font-bold text-white">{item.totalRaised}</div>
                   </div>
                 </div>
+                {item.websiteUrl && (
+                  <Button 
+                    variant="outline" 
+                    className="w-full gap-2 py-3 text-sm md:text-base"
+                    onClick={() => window.open(item.websiteUrl, '_blank')}
+                  >
+                    <Globe size={18} />
+                    Visit Official Website
+                  </Button>
+                )}
               </motion.div>
             )}
 
@@ -126,26 +127,34 @@ function ProjectModal({ item, onClose }: { item: LaunchItemProps, onClose: () =>
               </motion.div>
             )}
 
-            {activeTab === 'team' && (
+            {activeTab === 'community' && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {item.team?.map((member, i) => (
-                  <div key={i} className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <img src={member.avatar} alt={member.name} className="w-12 h-12 rounded-full object-cover" />
-                    <div>
-                      <div className="text-white font-bold">{member.name}</div>
-                      <div className="text-xs text-cyan-400">{member.role}</div>
+                {item.communityLinks?.map((link, i) => (
+                  <a 
+                    key={i} 
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-5 bg-white/5 rounded-2xl border border-white/5 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-cyan-400 transition-colors">
+                      {getIcon(link.platform)}
                     </div>
-                  </div>
+                    <div>
+                      <div className="text-white font-bold group-hover:text-cyan-400 transition-colors">{link.platform}</div>
+                      <div className="text-xs text-slate-500">Join our official channel</div>
+                    </div>
+                  </a>
                 ))}
               </motion.div>
             )}
           </div>
 
-          <div className="mt-10 flex gap-4">
-            <Button className="flex-grow py-4 text-lg">Invest Now</Button>
+          <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
+            <Button className="flex-grow py-3 md:py-4 text-base md:text-lg">Invest Now</Button>
             <Button 
               variant="outline" 
-              className="px-4 relative group"
+              className="py-3 md:py-4 px-6 md:px-4 flex items-center justify-center gap-2 relative group"
               onClick={() => {
                 const shareData = {
                   title: `Capitronix Launchpad: ${item.title}`,
@@ -345,70 +354,11 @@ export function Launchpad() {
   const [selectedProject, setSelectedProject] = useState<LaunchItemProps | null>(null);
   const [whitelistProject, setWhitelistProject] = useState<string | null>(null);
 
-  const projects: LaunchItemProps[] = [
-    {
-      type: 'Token',
-      title: '3Twenty Coin',
-      symbol: '$3TWENTY',
-      price: '$0.03',
-      progress: 68,
-      totalRaised: '21,000,000 $3TWENTY',
-      status: 'Active',
-      image: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&q=80&w=1000',
-      fullDescription: '3Twenty Coin is the utility backbone of the Capitronix ecosystem. It powers cross-chain transactions, community rewards, and allows users to participate in the most exclusive token launches with reduced fees.',
-      tokenomics: [
-        { label: 'Total Supply', value: '210M' },
-        { label: 'Network Utility', value: 'Governance' },
-        { label: 'Staking APR', value: 'Up to 24%' },
-      ],
-      team: [
-        { name: 'Alex Riviera', role: 'Chief Architect', avatar: 'https://i.pravatar.cc/150?u=alex' },
-        { name: 'Sarah Chen', role: 'Head of Growth', avatar: 'https://i.pravatar.cc/150?u=sarah' }
-      ]
-    },
-    {
-      type: 'NFT',
-      title: 'Capitronix Genesis',
-      price: 'Free w/ Activation',
-      progress: 42,
-      totalRaised: '10,000 Items',
-      status: 'Active',
-      image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1000',
-      fullDescription: 'The Genesis NFT collection represents founding membership in the Capitronix Protocol. Holders receive permanent allocation bonuses in all future launchpad projects and exclusive access to the VIP Ambassador Pool.',
-      tokenomics: [
-        { label: 'Mint Type', value: 'Free' },
-        { label: 'Royalty Fee', value: '5%' },
-        { label: 'Utility', value: 'Pool Access' },
-      ],
-      team: [
-        { name: 'Marcus V.', role: 'Creative Director', avatar: 'https://i.pravatar.cc/150?u=marcus' },
-        { name: 'Elena Z.', role: 'Blockchain Dev', avatar: 'https://i.pravatar.cc/150?u=elena' }
-      ]
-    },
-    {
-      type: 'Token',
-      title: 'CapiNode Protocol',
-      symbol: '$CPNODE',
-      price: 'TBA',
-      progress: 0,
-      status: 'Upcoming',
-      countdown: '03d : 14h : 22m',
-      image: 'https://images.unsplash.com/photo-1639762681057-408e52192e55?auto=format&fit=crop&q=80&w=1000',
-      fullDescription: 'CapiNode is a decentralized node infrastructure layer designed to optimize global marketing bandwidth. It allows the Community Growth Engine to scale infinitely by rewarding node operators for network visibility tasks.',
-      tokenomics: [
-        { label: 'Total Supply', value: '500M' },
-        { label: 'Circulating', value: 'Launch Decided' },
-        { label: 'Pre-Sale', value: 'Rank 3 Holders' },
-      ],
-      team: [
-        { name: 'Dr. David K.', role: 'Lead Strategy', avatar: 'https://i.pravatar.cc/150?u=david' },
-        { name: 'Jin Hyuk', role: 'Operations', avatar: 'https://i.pravatar.cc/150?u=jin' }
-      ]
-    }
-  ];
+  // Only show Active and Upcoming projects in the Launchpad section, limited to 3 for home page
+  const projects = allProjects.filter(p => p.status !== 'Finished').slice(0, 3);
 
   return (
-    <section id="launchpad" className="py-24 relative">
+    <section id="launchpad" className="py-16 relative">
       <AnimatePresence>
         {selectedProject && (
           <ProjectModal item={selectedProject} onClose={() => setSelectedProject(null)} />
@@ -418,13 +368,13 @@ export function Launchpad() {
         )}
       </AnimatePresence>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-10">
           <div className="max-w-xl">
             <Badge className="mb-4">Capitronix Launchpad</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               Active <span className="text-cyan-400">Opportunities</span>
             </h2>
-            <p className="text-slate-400 text-lg">
+            <p className="text-slate-400 text-base md:text-lg">
               Every account activation automatically initiates your journey into our curated Web3 assets. Real-time distribution powered by the Growth Engine.
             </p>
           </div>
@@ -454,7 +404,19 @@ export function Launchpad() {
           ))}
         </div>
 
-        <div className="mt-20 p-1 bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent">
+        <div className="mt-16 flex justify-center">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="px-8 border-cyan-500/30 text-white hover:bg-cyan-500/10 hover:border-cyan-500 group"
+            onClick={() => window.location.hash = '#marketplace'}
+          >
+            <span>Explore All Projects</span>
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </div>
+
+        <div className="mt-12 p-1 bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent">
           <div className="bg-slate-950 p-8 text-center">
             <div className="flex justify-center gap-12 flex-wrap lg:flex-nowrap">
               {[

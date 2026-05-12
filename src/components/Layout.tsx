@@ -20,11 +20,10 @@ export function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '#home' },
+    { name: 'Marketplace', href: '#marketplace' },
     { name: 'Launchpad', href: '#launchpad' },
     { name: 'About', href: '#about' },
     { name: 'Features', href: '#features' },
-    { name: 'Ecosystem', href: '#ecosystem' },
-    { name: 'Rewards', href: '#rewards' },
   ];
 
   return (
@@ -116,10 +115,9 @@ export function Footer() {
           <div>
             <h4 className="text-white font-bold mb-6">Platform</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">Launchpad</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">Ecosystem</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">Ambassador Pool</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">Rewards System</a></li>
+              <li><a href="#marketplace" className="text-slate-400 hover:text-cyan-400 transition-colors">Marketplace</a></li>
+              <li><a href="#launchpad" className="text-slate-400 hover:text-cyan-400 transition-colors">Launchpad</a></li>
+              <li><a href="#rewards" className="text-slate-400 hover:text-cyan-400 transition-colors">Ambassador Pool</a></li>
             </ul>
           </div>
 

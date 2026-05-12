@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Rocket, 
@@ -18,13 +19,35 @@ import {
   Trophy,
   PieChart,
   Repeat,
-  CheckCircle2
+  CheckCircle2,
+  Car,
+  Briefcase,
+  FileCode,
+  Sparkles
 } from 'lucide-react';
 import { Layout } from './components/Layout';
 import { Button, Card, Badge } from './components/UI';
 import { Launchpad } from './components/Launchpad';
+import { Marketplace } from './pages/Marketplace';
 
 export default function App() {
+  const [view, setView] = useState<'home' | 'marketplace'>('home');
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#marketplace') {
+        setView('marketplace');
+      } else {
+        setView('home');
+      }
+      window.scrollTo(0, 0);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Initial check
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
@@ -80,6 +103,16 @@ export default function App() {
     { level: "Board 3", entry: "$3,000", bonus1: "$2,000", bonus2: "$7,000", bonus3: "$30,000", total: "$39,000" },
     { level: "Board 4", entry: "$15,000", bonus1: "$10,000", bonus2: "$40,000", bonus3: "$100,000 + Car", total: "$150,000 + Car" },
   ];
+
+  if (view === 'marketplace') {
+    return (
+      <Layout>
+        <Marketplace onBack={() => {
+          window.location.hash = '#home';
+        }} />
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -159,7 +192,7 @@ export default function App() {
       <Launchpad />
 
       {/* About Section */}
-      <section id="about" className="py-24">
+      <section id="about" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div {...fadeInUp}>
@@ -203,9 +236,9 @@ export default function App() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 bg-slate-900/30">
+      <section id="features" className="py-16 bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Strategic Advantages</h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
               Our multifaceted approach ensures massive success for both developers and investors.
@@ -228,7 +261,7 @@ export default function App() {
       </section>
 
       {/* Activation Section */}
-      <section id="ecosystem" className="py-24">
+      <section id="ecosystem" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="relative overflow-hidden border-cyan-500/50 bg-gradient-to-br from-slate-900 to-slate-950">
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[100px] -z-10" />
@@ -290,77 +323,244 @@ export default function App() {
         </div>
       </section>
 
-      {/* Rewards Tiers Table */}
-      <section id="rewards" className="py-24 bg-slate-950">
+      {/* Ambassador & Rewards Section */}
+      <section id="rewards" className="py-16 bg-slate-950 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] -z-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="mb-4">Affiliate Excellence Program</Badge>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Rank and Reward Tiers</h2>
-            <p className="text-slate-400">Cultivate your network to ascend and unlock superior rewards.</p>
-          </div>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-white/5">
-                  <th className="py-6 px-4 text-slate-400 font-medium">Rank</th>
-                  <th className="py-6 px-4 text-slate-400 font-medium">Condition</th>
-                  <th className="py-6 px-4 text-slate-400 font-medium">Reward</th>
-                  <th className="py-6 px-4 text-slate-400 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rewardTiers.map((tier, i) => (
-                  <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
-                    <td className="py-6 px-4 font-bold text-white flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm ${
-                        i === 5 ? 'bg-yellow-500/20 text-yellow-500' : 'bg-cyan-500/20 text-cyan-400'
-                      }`}>
-                        {i + 1}
-                      </div>
-                      {tier.rank}
-                    </td>
-                    <td className="py-6 px-4 text-slate-400">{tier.condition}</td>
-                    <td className="py-6 px-4">
-                      <span className="font-bold text-white underline decoration-cyan-500/50 underline-offset-4 decoration-2">
-                        {tier.reward}
-                      </span>
-                    </td>
-                    <td className="py-6 px-4">
-                      <Trophy className={`w-5 h-5 ${i === 5 ? 'text-yellow-500 animate-pulse' : 'text-slate-700'}`} />
-                    </td>
-                  </tr>
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Left side: Ambassador Info */}
+            <motion.div {...fadeInUp}>
+              <Badge className="mb-4">Exclusive Elite Group</Badge>
+              <h2 className="text-4xl font-bold text-white mb-6">
+                Become a Global <br />
+                <span className="text-cyan-400">Ambassador</span>
+              </h2>
+              <p className="text-slate-400 mb-6 leading-relaxed">
+                By achieving <span className="text-white font-bold">Rank 6</span>, you automatically ascend to the status of an Ambassador. Join an exclusive group of only <span className="text-white font-bold">100 Ambassadors globally</span>.
+              </p>
+              
+              <div className="space-y-3 mb-6">
+                {[
+                  { title: "10% Collective Ownership", desc: "Ambassadors hold a combined 10% ownership of 100 exclusively developed projects." },
+                  { title: "Guaranteed Token Allocation", desc: "Every project has a 21 Million supply. Ambassadors get guaranteed portions of every launch." },
+                  { title: "Founder-Level Access", desc: "Gain direct access to the Capitronix core development team and inner circle." },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-colors">
+                    <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center shrink-0">
+                      <Trophy className="w-5 h-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold">{item.title}</h4>
+                      <p className="text-slate-400 text-sm">{item.desc}</p>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="mt-12 text-center p-6 rounded-3xl bg-cyan-400/5 border border-cyan-400/20">
-            <p className="text-cyan-400 font-medium">Maximize your potential: Earn up to 11,525 USDT by scaling your network.</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Card className="flex flex-col items-center text-center p-6 bg-slate-900/40">
+                  <div className="text-3xl font-bold text-white mb-1">100</div>
+                  <div className="text-slate-500 text-xs uppercase tracking-tighter">Global Slots</div>
+                </Card>
+                <Card className="flex flex-col items-center text-center p-6 bg-slate-900/40">
+                  <div className="text-3xl font-bold text-cyan-400 mb-1">10%</div>
+                  <div className="text-slate-500 text-xs uppercase tracking-tighter">Equity Stake</div>
+                </Card>
+              </div>
+            </motion.div>
+
+            {/* Right side: Tiers Table */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="bg-slate-900/30 p-1 rounded-[32px] border border-white/10 overflow-hidden"
+            >
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                  <Award className="text-yellow-500" />
+                  Rank and Reward Tiers
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/5">
+                        <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">Rank</th>
+                        <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">Condition</th>
+                        <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">Reward</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rewardTiers.map((tier, i) => (
+                        <tr key={i} className="group border-b border-white/5 last:border-0">
+                          <td className="py-4 font-bold text-white">
+                            <span className={`inline-flex items-center justify-center w-6 h-6 rounded text-[10px] mr-2 ${
+                              i === 5 ? 'bg-yellow-500 text-slate-900' : 'bg-slate-800 text-slate-400'
+                            }`}>
+                              {i + 1}
+                            </span>
+                            {tier.rank}
+                          </td>
+                          <td className="py-4 text-slate-400 text-sm">{tier.condition}</td>
+                          <td className="py-4">
+                            <span className={`font-mono font-bold ${i === 5 ? 'text-cyan-400' : 'text-white'}`}>
+                              {tier.reward}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-8 pt-8 border-t border-white/5">
+                  <p className="text-xs text-slate-500 italic text-center">
+                    * Achievers of Rank 6 earn exclusive Ambassador status automatically.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Ambassador Pool */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] -z-10" />
+      {/* Board Token Sales Engine */}
+      <section id="boards" className="py-16 bg-slate-900/40 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 px-4">
+            <Badge className="mb-4">Strategic Milestones</Badge>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              Board Token <span className="text-cyan-400">Sales Engine</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
+              Scale through our automated 1:5 filling mechanism across four strategic boards. Reaching the pinnacle unlocks life-changing rewards and guaranteed lifetime passive income.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+            {/* Left side: CAR Achievements */}
+            <motion.div {...fadeInUp} className="flex flex-col h-full">
+              <div className="mb-6 px-2">
+                <h3 className="text-2xl font-bold text-white mb-2">Luxury CAR Achievement</h3>
+                <p className="text-slate-500 text-sm">Ultimate goal for serious Capitronix entrepreneurs.</p>
+              </div>
+
+              <div className="relative group flex-grow">
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <Card className="relative h-full p-8 md:p-10 bg-slate-900/80 border-cyan-500/30 flex flex-col justify-between">
+                  <div className="flex items-center gap-6 mb-10">
+                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                      <Car size={36} />
+                    </div>
+                    <div>
+                      <h4 className="text-2xl md:text-3xl font-bold text-white mb-1">$150,000 + Luxury Car</h4>
+                      <p className="text-slate-500 text-base">Board 4 Completion Reward</p>
+                    </div>
+                  </div>
+                  <div className="space-y-8">
+                    <div>
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-slate-400 text-base md:text-lg">Cash Bonus Milestone</span>
+                        <span className="text-white font-bold text-lg md:text-xl">$100,000</span>
+                      </div>
+                      <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: '100%' }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center pt-8 border-t border-white/5">
+                      <span className="text-slate-400 text-base md:text-lg whitespace-nowrap">Achievement Potential</span>
+                      <span className="text-cyan-400 font-bold text-2xl md:text-3xl tracking-tight">$195,000+</span>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </motion.div>
+
+            {/* Right side: Board Income Chart */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="flex flex-col h-full"
+            >
+              <div className="mb-6 px-2">
+                <h3 className="text-2xl font-bold text-white mb-2">Board Income Chart</h3>
+                <p className="text-slate-500 text-sm">Automated filling mechanism result tracking.</p>
+              </div>
+              
+              <div className="flex-grow flex flex-col justify-between rounded-[32px] border border-white/10 bg-slate-950/40 p-1">
+                <div className="p-4 md:p-6">
+                  <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-slate-900/50">
+                          <th className="py-4 px-3 md:px-6 text-slate-300 font-bold border-b border-white/5 rounded-tl-2xl text-xs md:text-sm">Board</th>
+                          <th className="py-4 px-3 md:px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap text-xs md:text-sm">L-1 (5u)</th>
+                          <th className="py-4 px-3 md:px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap text-xs md:text-sm">L-2 (25u)</th>
+                          <th className="py-4 px-3 md:px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap text-xs md:text-sm">L-3 (125u)</th>
+                          <th className="py-4 px-3 md:px-6 text-cyan-400 font-bold border-b border-white/5 whitespace-nowrap rounded-tr-2xl text-xs md:text-sm">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boardBenefits.map((board, i) => (
+                          <tr key={i} className="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
+                            <td className="py-4 px-3 md:px-6">
+                              <div className={`font-bold text-base md:text-lg ${i === 3 ? 'text-yellow-500' : 'text-white'}`}>{board.level.split(' ')[1]}</div>
+                            </td>
+                            <td className="py-4 px-3 md:px-6 text-slate-400 text-xs md:text-sm">{board.bonus1}</td>
+                            <td className="py-4 px-3 md:px-6 text-slate-400 text-xs md:text-sm">{board.bonus2}</td>
+                            <td className="py-4 px-3 md:px-6 text-slate-400 text-xs md:text-sm">{board.bonus3.split(' ')[0]}</td>
+                            <td className="py-4 px-3 md:px-6">
+                              <span className={`font-bold text-xs md:text-base ${i === 3 ? 'text-cyan-400 text-lg' : 'text-slate-300'}`}>
+                                {board.total.includes('+') ? board.total.split(' ')[0] : board.total}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                  </table>
+                </div>
+                
+                <div className="m-4 md:m-6 p-6 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-center">
+                  <p className="text-cyan-400 font-bold uppercase tracking-widest text-sm">
+                    TOTAL ECOSYSTEM POTENTIAL: OVER $195,000 USDT
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA: List Your Project */}
+      <section id="list-project" className="py-24 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-500/5 to-transparent -z-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div {...fadeInUp}>
-              <Badge className="mb-4">Exclusive Elite Group</Badge>
-              <h2 className="text-4xl font-bold text-white mb-6">Ambassador Pool <br /><span className="text-cyan-400">10% Collective Ownership</span></h2>
-              <p className="text-slate-400 mb-8 leading-relaxed">
-                Capitronix reserves a massive portion of every project's total supply exclusively for our Rank 6 leaders, ensuring they grow as the ecosystem scales.
+              <Badge className="mb-4">For Project Owners</Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                Ready to Launch Your <br />
+                <span className="text-cyan-400">Token or NFT Project?</span>
+              </h2>
+              <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+                Connect with a global network of dedicated investors and leverage our automated marketing engine. We provide the infrastructure, you provide the innovation.
               </p>
               
-              <div className="space-y-6">
+              <div className="space-y-6 mb-10">
                 {[
-                  { title: "10% Equity Reservation", desc: "Exactly 2.1M tokens reserved for every project." },
-                  { title: "Collective Ownership Stake", desc: "Our elite group of 100 Ambassadors holds direct ownership." },
-                  { title: "Guaranteed Allocation", desc: "21,000 tokens guaranteed per project for each Ambassador." },
+                  { icon: <Briefcase className="text-cyan-400" />, title: "Full Launch Support", desc: "From whitepaper audit to technical implementation and smart contract deployment." },
+                  { icon: <Users className="text-blue-400" />, title: "Instant Community", desc: "Gain immediate access to over 50,000+ active users globally within our ecosystem." },
+                  { icon: <FileCode className="text-purple-400" />, title: "Strategic Listing", desc: "Showcase your project on our professional marketplace and launchpad protocal." },
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center shrink-0">
-                      <CheckCircle2 className="w-5 h-5 text-cyan-400" />
+                  <div key={i} className="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/5">
+                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
+                      {item.icon}
                     </div>
                     <div>
                       <h4 className="text-white font-bold">{item.title}</h4>
@@ -370,93 +570,48 @@ export default function App() {
                 ))}
               </div>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Card className="flex flex-col items-center text-center p-8">
-                <div className="text-4xl font-bold text-white mb-2">2.1M</div>
-                <div className="text-slate-500 text-sm">Accumulated Tokens <br /> (100 Projects)</div>
-              </Card>
-              <Card className="flex flex-col items-center text-center p-8 mt-8">
-                <div className="text-4xl font-bold text-cyan-400 mb-2">$2.1M</div>
-                <div className="text-slate-500 text-sm">Projected Portfolio <br /> Asset Value</div>
-              </Card>
-              <div className="col-span-full mt-4">
-                <Card className="p-8 border-cyan-500/30">
-                  <h4 className="text-white font-bold mb-4 flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-yellow-400" />
-                    Automated Growth Engine
-                  </h4>
-                  <p className="text-sm text-slate-400">
-                    The value of your 10% stake is driven by the Capitronix Launchpad Engine, which manages all global marketing and branding.
-                  </p>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Board Engine Table */}
-      <section className="py-24 bg-slate-900/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">Board Token Sales Engine</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Automated 1:5 person-filling mechanism across four strategic boards for lifetime passive income.
-            </p>
-          </div>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse bg-slate-950/50 rounded-3xl overflow-hidden border border-white/5">
-              <thead>
-                <tr className="bg-slate-900/50">
-                  <th className="py-6 px-6 text-slate-300 font-bold border-b border-white/5">Board Level</th>
-                  <th className="py-6 px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap">L-1 (5 User)</th>
-                  <th className="py-6 px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap">L-2 (25 User)</th>
-                  <th className="py-6 px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap">L-3 (125 User)</th>
-                  <th className="py-6 px-6 text-cyan-400 font-bold border-b border-white/5">Total Bonus</th>
-                </tr>
-              </thead>
-              <tbody>
-                {boardBenefits.map((board, i) => (
-                  <tr key={i} className="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 group">
-                    <td className="py-6 px-6">
-                      <div className="text-white font-bold">{board.level}</div>
-                      <div className="text-slate-500 text-xs">{board.entry} Entry</div>
-                    </td>
-                    <td className="py-6 px-6 text-slate-400">{board.bonus1}</td>
-                    <td className="py-6 px-6 text-slate-400">{board.bonus2}</td>
-                    <td className="py-6 px-6 text-slate-400">{board.bonus3}</td>
-                    <td className="py-6 px-6">
-                      <span className="px-3 py-1 rounded-full bg-cyan-400/10 text-cyan-400 font-bold text-sm">
-                        {board.total}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA/Contact Section */}
-      <section className="py-24 border-t border-white/5 relative overflow-hidden">
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] -z-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-slate-900/50 p-12 rounded-[40px] border border-white/10 text-center relative overflow-hidden backdrop-blur-sm">
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/5 to-transparent pointer-events-none" />
-            <Rocket className="w-16 h-16 text-cyan-400 mx-auto mb-8 animate-bounce" />
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Join the Future of Web3 Growth</h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-12">
-              Capitronix Launchpad Protocol provides blockchain startups, investors, and affiliates with a powerful ecosystem for token launches and long-term profitability.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Button size="lg" className="px-12 py-5 text-xl w-full sm:w-auto">Get Started Now</Button>
-              <div className="flex items-center gap-2 text-slate-400 bg-white/5 px-6 py-4 rounded-full border border-white/5">
-                <Shield className="w-5 h-5 text-cyan-400" />
-                <span>Secure & Verified Protocol</span>
-              </div>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 rounded-[40px] blur-2xl -z-10" />
+              <Card className="p-8 md:p-12 border-cyan-500/30 bg-slate-900/80 backdrop-blur-md">
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-cyan-400/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Rocket className="text-cyan-400 w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white">Apply for Listing</h3>
+                  <p className="text-slate-500">Our team will review your project within 48 hours.</p>
+                </div>
+                
+                <form className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Project Name" className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50" />
+                    <select className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-400 focus:outline-none focus:border-cyan-500/50">
+                      <option>Token Launch</option>
+                      <option>NFT Collection</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <input type="email" placeholder="Your Work Email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50" />
+                  <textarea placeholder="Tell us briefly about your project..." rows={3} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50 resize-none"></textarea>
+                  <Button className="w-full py-4 text-lg">Submit Application</Button>
+                </form>
+                
+                <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between">
+                  <div className="flex -space-x-2">
+                    {[1,2,3,4].map(i => (
+                      <img key={i} src={`https://i.pravatar.cc/100?u=${i+10}`} className="w-8 h-8 rounded-full border-2 border-slate-900" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-500 font-medium">Joined by 120+ Founders</p>
+                </div>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
